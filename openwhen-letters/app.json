@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "OpenWhen Letters",
+    "slug": "openwhen-letters",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.openwhen.letters"
+    },
+    "android": {
+      "package": "com.openwhen.letters"
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "description": "A digital emotional vault for time-locked letters"
+  }
+}

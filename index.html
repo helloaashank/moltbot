@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenWhen Letters - Send Digital "Open When" Letters</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --primary: #E8B4B8;
+      --primary-dark: #D49A9F;
+      --secondary: #FDF6F0;
+      --accent: #D4AF37;
+      --text-dark: #3D3D3D;
+      --text-light: #6B6B6B;
+      --white: #FFFFFF;
+      --shadow-sm: 0 2px 8px rgba(232, 180, 184, 0.2);
+      --shadow-md: 0 4px 16px rgba(232, 180, 184, 0.3);
+      --shadow-lg: 0 8px 32px rgba(232, 180, 184, 0.4);
+      --radius: 16px;
+      --radius-sm: 8px;
+    }
+
+    /* ===== RESET & BASE ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--secondary) 0%, #FFF5F0 100%);
+      min-height: 100vh;
+      color: var(--text-dark);
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      outline: none;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo span {
+      color: var(--primary-dark);
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--primary-dark);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-dark);
+      line-height: 1.2;
+    }
+
+    .hero h1 span {
+      color: var(--primary-dark);
+      font-style: italic;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .cta-button {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--white);
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* ===== HOW IT WORKS ===== */
+    .how-it-works {
+      padding: 4rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .how-it-works h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 3rem;
+      color: var(--text-dark);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .step {
+      background: var(--white);
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+    }
+
+    .step-number {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--white);
+      font-size: 1.3rem;
+      font-weight: 600;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+
+    .step h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-dark);
+    }
+
+    .step p {
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ===== CREATE LETTER PAGE ===== */
+    .page {
+      display: none;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .create-form {
+      background: var(--white);
+      padding: 2.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-dark);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid #EEE;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .form-group textarea {
+      min-height: 180px;
+      resize: vertical;
+    }
+
+    .date-lock-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: var(--secondary);
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.5rem;
+    }
+
+    .date-lock-toggle input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--primary-dark);
+    }
+
+    .date-lock-toggle label {
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .date-picker-container {
+      display: none;
+      margin-top: 1rem;
+    }
+
+    .date-picker-container.show {
+      display: block;
+    }
+
+    .date-picker-container input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid var(--primary);
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--white);
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-md);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* ===== SUCCESS STATE ===== */
+    .success-state {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .success-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .success-state h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .success-state p {
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .link-container {
+      background: var(--secondary);
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .link-container input {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      color: var(--text-dark);
+    }
+
+    .copy-btn {
+      background: var(--primary);
+      color: var(--white);
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .create-another {
+      background: transparent;
+      color: var(--primary-dark);
+      padding: 0.75rem 1.5rem;
+      border: 2px solid var(--primary);
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .create-another:hover {
+      background: var(--secondary);
+    }
+
+    /* ===== VIEW LETTER PAGE ===== */
+    .view-page {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Locked State */
+    .locked-state {
+      text-align: center;
+      background: var(--white);
+      padding: 3rem 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+    }
+
+    .lock-icon {
+      font-size: 5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .locked-state h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .locked-state .unlock-date {
+      font-size: 1.3rem;
+      color: var(--primary-dark);
+      font-weight: 600;
+      margin: 1rem 0;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .countdown-item {
+      text-align: center;
+    }
+
+    .countdown-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      font-family: 'Playfair Display', serif;
+    }
+
+    .countdown-label {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+    }
+
+    /* Unlocked State */
+    .letter-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      animation: envelopeOpen 0.6s ease-out;
+    }
+
+    @keyframes envelopeOpen {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .letter-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .letter-title {
+      font-size: 1.8rem;
+      color: var(--white);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .letter-meta {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .letter-body {
+      padding: 2.5rem;
+      line-height: 1.8;
+      font-size: 1.05rem;
+      color: var(--text-dark);
+      white-space: pre-wrap;
+    }
+
+    .letter-footer {
+      padding: 1.5rem 2.5rem;
+      background: var(--secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sender-info {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    .sender-info span {
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .share-btn {
+      background: var(--primary);
+      color: var(--white);
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .share-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-top: 4rem;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .countdown {
+        gap: 1rem;
+      }
+
+      .countdown-value {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <span>&#9993;</span> OpenWhen<span>Letters</span>
+    </div>
+    <nav>
+      <a href="#" onclick="showPage('home'); return false;">Home</a>
+      <a href="#" onclick="showPage('create'); return false;">Create Letter</a>
+    </nav>
+  </header>
+
+  <!-- Home Page -->
+  <main id="home-page" class="page active">
+    <section class="hero">
+      <h1>Send Digital <span>"Open When"</span> Letters</h1>
+      <p>
+        Create beautiful time-locked messages for the people you love.
+        Set a date for when they should open it, and we'll keep it safe until then.
+      </p>
+      <button class="cta-button" onclick="showPage('create')">Create Your Letter</button>
+    </section>
+
+    <section class="how-it-works">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Write Your Letter</h3>
+          <p>Choose an "Open when..." title and pour your heart into your message.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Set an Unlock Date</h3>
+          <p>Optional: Pick a date when the letter should unlock. Until then, it stays locked!</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Share the Link</h3>
+          <p>Send the unique link to your recipient. They can open it when the time comes.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Create Page -->
+  <main id="create-page" class="page">
+    <div class="create-form">
+      <h2 style="text-align: center; margin-bottom: 1.5rem; font-size: 1.8rem;">Create Your Letter</h2>
+
+      <div class="form-group">
+        <label for="title">Open when...</label>
+        <input type="text" id="title" placeholder="e.g., you're smiling, you miss me, it's your birthday">
+      </div>
+
+      <div class="form-group">
+        <label for="message">Your Message</label>
+        <textarea id="message" placeholder="Write your heartfelt message here..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="senderName">Your Name</label>
+        <input type="text" id="senderName" placeholder="How should they know it's from you?">
+      </div>
+
+      <div class="date-lock-toggle">
+        <input type="checkbox" id="dateLockToggle" onchange="toggleDatePicker()">
+        <label for="dateLockToggle">Lock this letter until a specific date</label>
+      </div>
+
+      <div class="date-picker-container" id="datePickerContainer">
+        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Unlock Date</label>
+        <input type="date" id="unlockDate">
+      </div>
+
+      <button class="submit-btn" onclick="createLetter()">Generate Link</button>
+    </div>
+  </main>
+
+  <!-- Success State -->
+  <main id="success-page" class="page">
+    <div class="success-state">
+      <div class="success-icon">&#127881;</div>
+      <h2>Your Letter is Ready!</h2>
+      <p>Share this link with your special someone</p>
+
+      <div class="link-container">
+        <input type="text" id="shareLink" readonly>
+        <button class="copy-btn" onclick="copyLink()">Copy</button>
+      </div>
+
+      <button class="create-another" onclick="showPage('create')">Create Another Letter</button>
+    </div>
+  </main>
+
+  <!-- View Page -->
+  <main id="view-page" class="page view-page">
+    <!-- Content injected by JavaScript -->
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 OpenWhen Letters. Made with &#10084; for sharing emotions.</p>
+  </footer>
+
+  <script>
+    // ===== PAGE NAVIGATION =====
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+
+      if (pageId === 'home') {
+        document.getElementById('home-page').classList.add('active');
+      } else if (pageId === 'create') {
+        document.getElementById('create-page').classList.add('active');
+      } else if (pageId === 'success') {
+        document.getElementById('success-page').classList.add('active');
+      } else if (pageId === 'view') {
+        document.getElementById('view-page').classList.add('active');
+      }
+
+      window.scrollTo(0, 0);
+    }
+
+    // ===== DATE PICKER TOGGLE =====
+    function toggleDatePicker() {
+      const checkbox = document.getElementById('dateLockToggle');
+      const container = document.getElementById('datePickerContainer');
+      container.classList.toggle('show', checkbox.checked);
+    }
+
+    // ===== CREATE LETTER =====
+    function createLetter() {
+      const title = document.getElementById('title').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const senderName = document.getElementById('senderName').value.trim();
+      const dateLockEnabled = document.getElementById('dateLockToggle').checked;
+      const unlockDate = document.getElementById('unlockDate').value;
+
+      // Validation
+      if (!title) {
+        alert('Please enter a title (e.g., "you\'re smiling")');
+        return;
+      }
+      if (!message) {
+        alert('Please write a message');
+        return;
+      }
+      if (!senderName) {
+        alert('Please enter your name');
+        return;
+      }
+      if (dateLockEnabled && !unlockDate) {
+        alert('Please select an unlock date');
+        return;
+      }
+
+      // Create letter data
+      const letterData = {
+        title: title,
+        message: message,
+        senderName: senderName,
+        unlockDate: dateLockEnabled ? unlockDate : null,
+        createdAt: new Date().toISOString()
+      };
+
+      // Encode to Base64
+      const encoded = btoa(encodeURIComponent(JSON.stringify(letterData)));
+      const shareUrl = `${window.location.origin}${window.location.pathname}?letter=${encoded}`;
+
+      // Show success state
+      document.getElementById('shareLink').value = shareUrl;
+      showPage('success');
+    }
+
+    // ===== COPY LINK =====
+    function copyLink() {
+      const linkInput = document.getElementById('shareLink');
+      linkInput.select();
+      linkInput.setSelectionRange(0, 99999);
+      document.execCommand('copy');
+
+      const copyBtn = document.querySelector('.copy-btn');
+      const originalText = copyBtn.textContent;
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => {
+        copyBtn.textContent = originalText;
+      }, 2000);
+    }
+
+    // ===== VIEW LETTER =====
+    function viewLetter() {
+      const params = new URLSearchParams(window.location.search);
+      const encoded = params.get('letter');
+
+      if (!encoded) {
+        document.getElementById('view-page').innerHTML = `
+          <div class="locked-state">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">&#10067;</div>
+            <h2>No Letter Found</h2>
+            <p>This link doesn't contain a valid letter.</p>
+            <button class="cta-button" onclick="showPage('create')" style="margin-top: 1rem;">Create Your Own</button>
+          </div>
+        `;
+        showPage('view');
+        return;
+      }
+
+      try {
+        const decoded = decodeURIComponent(atob(encoded));
+        const letter = JSON.parse(decoded);
+
+        // Check if date-locked
+        if (letter.unlockDate) {
+          const unlockDate = new Date(letter.unlockDate);
+          const now = new Date();
+          unlockDate.setHours(0, 0, 0, 0);
+          now.setHours(0, 0, 0, 0);
+
+          if (now < unlockDate) {
+            // Still locked
+            renderLockedState(letter, unlockDate);
+            return;
+          }
+        }
+
+        // Unlocked - show letter
+        renderLetter(letter);
+
+      } catch (e) {
+        document.getElementById('view-page').innerHTML = `
+          <div class="locked-state">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">&#9888;</div>
+            <h2>Invalid Letter</h2>
+            <p>This letter link appears to be corrupted.</p>
+            <button class="cta-button" onclick="showPage('create')" style="margin-top: 1rem;">Create Your Own</button>
+          </div>
+        `;
+        showPage('view');
+      }
+    }
+
+    // ===== RENDER LOCKED STATE =====
+    function renderLockedState(letter, unlockDate) {
+      const now = new Date();
+      const diff = unlockDate - now;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+      const formattedDate = unlockDate.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      document.getElementById('view-page').innerHTML = `
+        <div class="locked-state">
+          <div class="lock-icon">&#128274;</div>
+          <h2>This Letter is Locked</h2>
+          <p>From: <strong>${letter.senderName}</strong></p>
+          <div class="unlock-date">Unlocks on ${formattedDate}</div>
+
+          <div class="countdown">
+            <div class="countdown-item">
+              <div class="countdown-value">${days}</div>
+              <div class="countdown-label">Days</div>
+            </div>
+            <div class="countdown-item">
+              <div class="countdown-value">${hours}</div>
+              <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-item">
+              <div class="countdown-value">${minutes}</div>
+              <div class="countdown-label">Mins</div>
+            </div>
+          </div>
+
+          <p style="color: var(--text-light); margin-top: 1.5rem;">
+            Come back on the unlock date to read this special message.
+          </p>
+
+          <button class="cta-button" onclick="showPage('home')" style="margin-top: 1.5rem;">
+            Go to Home
+          </button>
+        </div>
+      `;
+      showPage('view');
+
+      // Update countdown every minute
+      setInterval(() => {
+        viewLetter();
+      }, 60000);
+    }
+
+    // ===== RENDER LETTER =====
+    function renderLetter(letter) {
+      const createdDate = new Date(letter.createdAt).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      document.getElementById('view-page').innerHTML = `
+        <div class="letter-card">
+          <div class="letter-header">
+            <div class="letter-title">${escapeHtml(letter.title)}</div>
+            <div class="letter-meta">Created on ${createdDate}</div>
+          </div>
+          <div class="letter-body">${escapeHtml(letter.message)}</div>
+          <div class="letter-footer">
+            <div class="sender-info">From <span>${escapeHtml(letter.senderName)}</span></div>
+            <button class="share-btn" onclick="shareLetter()">Share</button>
+          </div>
+        </div>
+      `;
+      showPage('view');
+    }
+
+    // ===== SHARE LETTER =====
+    function shareLetter() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'OpenWhen Letter',
+          text: 'You\'ve received a special letter!',
+          url: window.location.href
+        });
+      } else {
+        copyLink();
+        alert('Link copied to clipboard!');
+      }
+    }
+
+    // ===== UTILITIES =====
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ===== INITIALIZATION =====
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('letter')) {
+        viewLetter();
+      } else {
+        showPage('home');
+      }
+    });
+  </script>
+</body>
+</html>
