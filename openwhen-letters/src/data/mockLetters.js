@@ -28,7 +28,7 @@ Michael`,
     id: '2',
     recipientName: 'Alex',
     senderName: 'Jordan',
-    openWhenCondition: 'It's your birthday',
+    openWhenCondition: "It's your birthday",
     body: `Happy Birthday, Alex!
 
 Another year around the sun, and I wanted to give you something that doesn't take up space but I hope takes up heart.
