@@ -51,7 +51,7 @@ Jordan`,
     id: '3',
     recipientName: 'Emma',
     senderName: 'You',
-    openWhenCondition: 'You're feeling lost',
+    openWhenCondition: "You're feeling lost",
     body: `Dear Emma,
 
 I know that feeling — when the path ahead seems foggy and every direction looks uncertain.
